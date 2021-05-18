@@ -28,6 +28,8 @@ import java.io.File;
  */
 public class BinaryTranslator extends Application {
 
+  Stage mainStage;
+
   /* setting default output file name */
   private static final String defaultFileName = "output.txt";
 
@@ -66,11 +68,12 @@ public class BinaryTranslator extends Application {
       clearMessage();
       /* creating a FileChooser and adding a filter to set which files can be chosen in the open file dialog - text files, in this case */
       FileChooser fileChooser = new FileChooser();
+      fileChooser.setTitle("Select input file");
       FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("TXT files (*.txt)", "*.txt");
       fileChooser.getExtensionFilters().add(extFilter);
 
       /* open dialog for input file selection */
-      File selectedFile = fileChooser.showOpenDialog(null);
+      File selectedFile = fileChooser.showOpenDialog(mainStage);
 
       if (selectedFile != null) {
         try{
@@ -102,7 +105,7 @@ public class BinaryTranslator extends Application {
       fileChooser.getExtensionFilters().add(extFilter);
 
       /* open dialog for output file selection */
-      File savedFile = fileChooser.showSaveDialog(null);
+      File savedFile = fileChooser.showSaveDialog(mainStage);
 
       if (savedFile != null) {
         try{
@@ -204,6 +207,8 @@ public class BinaryTranslator extends Application {
 
   @Override
   public void start(Stage stage) {
+
+    mainStage = stage;
 
     String textFont = "Arial";
 
