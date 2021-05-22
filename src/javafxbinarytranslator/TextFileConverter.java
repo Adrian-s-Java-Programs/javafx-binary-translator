@@ -72,28 +72,39 @@ class TextFileConverter {
     BufferedReader reader = Files.newBufferedReader(path, chosenCharset);
 
     String firstLine, secondLine;
-    firstLine = reader.readLine();
 
-    if (firstLine == null){
-      /* completely empty simple file */
-      result = true;
-    }
+    try{
+      firstLine = reader.readLine();
 
-    else{
-      secondLine = reader.readLine();
-
-      if (firstLine.isEmpty()&&secondLine==null){
-        /* simple file containing only one new line */
-        result = true; 
+      if (firstLine == null){
+        /* completely empty simple file */
+        result = true;
       }
 
-      if(!firstLine.isEmpty()){
-        if ((firstLine.codePointAt(0) == BOM)&(firstLine.length()==1)&(secondLine==null)){
-          /* empty UTF-8 file with BOM */
-          result = true;
+      else{
+        secondLine = reader.readLine();
+
+        if (firstLine.isEmpty()&&secondLine==null){
+          /* simple file containing only one new line */
+          result = true; 
         }
-      }
 
+        if(!firstLine.isEmpty()){
+          if ((firstLine.codePointAt(0) == BOM)&(firstLine.length()==1)&(secondLine==null)){
+            /* empty UTF-8 file with BOM */
+            result = true;
+          }
+        }
+
+      }
+    }
+    catch (IOException e){
+      reader.close();
+      throw e;
+    }
+    catch (RuntimeException e){
+      reader.close();
+      throw e;
     }
 
     reader.close();
@@ -210,7 +221,7 @@ class TextFileConverter {
       stream = Files.lines(Paths.get(inputFileName), chosenCharset);
     }
     catch(Exception e){
-      result = "An error occured when reading the input file.";
+      result = "An error occurred when reading the input file.";
       stream.close();
       return result;
     }
@@ -241,7 +252,7 @@ class TextFileConverter {
        * That would require illegal input characters (but preliminary checks will report incompatible input such as 
        * non-UTF-8 file) or some coding bug.  
        */
-      result = "Problems have occured, but an output file was generated.";
+      result = "Problems have occurred, but an output file was generated.";
     }
 
     return result;
@@ -280,7 +291,7 @@ class TextFileConverter {
       throw new RuntimeException("Cannot write output file (access denied). Please try saving to a different location.");
     }
     catch(Exception e){
-      throw new RuntimeException("A problem occured when writing to output file.");
+      throw new RuntimeException("A problem occurred when writing to output file.");
     }
 
   }
@@ -337,7 +348,7 @@ class TextFileConverter {
       stream = Files.lines(Paths.get(inputFileName), chosenCharset);
     }
     catch(Exception e){
-      result = "An error occured when reading the input file.";
+      result = "An error occurred when reading the input file.";
       stream.close();
       return result;
     }
@@ -370,7 +381,7 @@ class TextFileConverter {
        * be empty, or with new lines, or with some junk characters (depending on whether the input file contains some text 
        * with something that could be considered binary).
        */
-      result = "Problems have occured, but an output file was generated.";
+      result = "Problems have occurred, but an output file was generated.";
     }
 
     return result;
@@ -413,7 +424,7 @@ class TextFileConverter {
       throw new RuntimeException("Cannot write output file (access denied). Please try saving to a different location.");
     }
     catch(Exception e){
-      throw new RuntimeException("A problem occured when writing to output file.");
+      throw new RuntimeException("A problem occurred when writing to output file.");
     }
 
   }
