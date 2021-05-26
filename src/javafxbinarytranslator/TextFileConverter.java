@@ -69,11 +69,10 @@ class TextFileConverter {
 
     Path path = Paths.get(fileName);
 
-    BufferedReader reader = Files.newBufferedReader(path, chosenCharset);
-
     String firstLine, secondLine;
 
-    try{
+    try(BufferedReader reader = Files.newBufferedReader(path, chosenCharset)){
+
       firstLine = reader.readLine();
 
       if (firstLine == null){
@@ -82,11 +81,12 @@ class TextFileConverter {
       }
 
       else{
+
         secondLine = reader.readLine();
 
         if (firstLine.isEmpty()&&secondLine==null){
           /* simple file containing only one new line */
-          result = true; 
+          result = true;
         }
 
         if(!firstLine.isEmpty()){
@@ -97,17 +97,9 @@ class TextFileConverter {
         }
 
       }
-    }
-    catch (IOException e){
-      reader.close();
-      throw e;
-    }
-    catch (RuntimeException e){
-      reader.close();
-      throw e;
+
     }
 
-    reader.close();
     return result;
 
   }
