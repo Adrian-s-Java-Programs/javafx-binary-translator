@@ -28,7 +28,7 @@ class TextFileConverter {
   static final Charset chosenCharset = StandardCharsets.UTF_8;
 
   /* method used to check if a file already exists */
-  private boolean fileExists(String fileName){
+  boolean fileExists(String fileName){
     Path path = Paths.get(fileName);
 
     if(Files.exists(path) && !Files.isDirectory(path)){
